@@ -121,3 +121,40 @@ for item in my_table2.table:
     if len(my_table1_filtered.table) >= 1:
         print(item['country'], my_table1_filtered.aggregate(lambda x: min(x), 'latitude'), my_table1_filtered.aggregate(lambda x: max(x), 'latitude'))
 print()
+
+__location__ = os.path.realpath(
+    os.path.join(os.getcwd(), os.path.dirname(__file__))
+)
+
+
+titanic_data = []
+with open(os.path.join(__location__, 'Titanic.csv')) as f:
+    rows = csv.DictReader(f)
+    for r in rows:
+        titanic_data.append(dict(r))
+
+titanic_table = Table('titanic', titanic_data)
+
+
+players_data = []
+with open(os.path.join(__location__, 'Players.csv')) as f:
+    rows = csv.DictReader(f)
+    for r in rows:
+        players_data.append(dict(r))
+
+players_table = Table('players', players_data)
+
+
+teams_data = []
+with open(os.path.join(__location__, 'Teams.csv')) as f:
+    rows = csv.DictReader(f)
+    for r in rows:
+        teams_data.append(dict(r))
+
+teams_table = Table('teams', teams_data)
+
+
+my_DB = DB()
+my_DB.insert(titanic_table)
+my_DB.insert(players_table)
+my_DB.insert(teams_table)
